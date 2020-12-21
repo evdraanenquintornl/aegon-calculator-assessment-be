@@ -2,12 +2,15 @@ package aegon.assessment.simplecalculator.controller;
 
 import aegon.assessment.simplecalculator.model.CalculationDto;
 import aegon.assessment.simplecalculator.service.CalculationService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 @RestController
@@ -22,7 +25,9 @@ public class CalculationController {
 
     @PostMapping
     public ResponseEntity<CalculationDto> calculate(@RequestBody ArrayList<String> argumentList) {
-        CalculationDto calculationDto = this.calculationService.calculate(argumentList);
+        CalculationDto calculationDto = null;
+        calculationDto = this.calculationService.calculate(argumentList);
+
         return ResponseEntity.ok(calculationDto);
     }
 }

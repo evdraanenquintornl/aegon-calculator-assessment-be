@@ -11,6 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -30,11 +31,11 @@ class CalculationServiceTest {
     @ParameterizedTest
     @CsvSource({
             "1 x 2, 2",
-            "3 / 2, 0.5",
+            "3 / 2, 1.5",
             "10 + 5, 15",
-            "25 - 10, 10"
+            "25 - 10, 15"
     })
-    void calculate_simple_sums(String sum, double result) {
+    void calculate_simple_sums(String sum, double result) throws IOException {
         //  ARRANGE
         ArrayList<String> argumentList = new ArrayList<>(List.of(sum.split(" ")));
         //  ACT
@@ -51,7 +52,7 @@ class CalculationServiceTest {
             "10 + 5 + 15, 30",
             "25 - 10 - 10 - 9, 9"
     })
-    void calculate_extended_sums(String sum, double result) {
+    void calculate_extended_sums(String sum, double result) throws IOException {
         //  ARRANGE
         ArrayList<String> argumentList = new ArrayList<>(List.of(sum.split(" ")));
         //  ACT
