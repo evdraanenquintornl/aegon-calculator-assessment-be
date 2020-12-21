@@ -33,7 +33,7 @@ public class CalculationService {
             case "/":
                 calculationResult = simpleCalculator.divide(leftSide, rightSide);
                 break;
-            case "*":
+            case "x":
                 calculationResult = simpleCalculator.multiply(leftSide, rightSide);
                 break;
             case "-":

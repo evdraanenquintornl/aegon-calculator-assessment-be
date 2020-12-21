@@ -30,7 +30,7 @@ class CalculationServiceTest {
 
     @ParameterizedTest
     @CsvSource({
-            "1 * 2, 2",
+            "1 x 2, 2",
             "3 / 2, 1.5",
             "10 + 5, 15",
             "25 - 10, 15"
@@ -47,7 +47,7 @@ class CalculationServiceTest {
 
     @ParameterizedTest
     @CsvSource({
-            "1 * 2 + 2 * 5, 13",
+            "1 x 2 + 2 x 5, 13",
             "3 / 2 + 6 / 3, 3.5",
             "10 + 5 + 15, 30",
             "25 - 10 - 10 - 9, 9"
