@@ -2,19 +2,15 @@ package aegon.assessment.simplecalculator.controller;
 
 import aegon.assessment.simplecalculator.model.CalculationDto;
 import aegon.assessment.simplecalculator.service.CalculationService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/calculations")
+@CrossOrigin("http://localhost:4200")
 public class CalculationController {
 
     private CalculationService calculationService;
@@ -23,11 +19,13 @@ public class CalculationController {
         this.calculationService = calculationService;
     }
 
+    @GetMapping
+    public ResponseEntity<List<CalculationDto>> getAllCalculations() {
+        return ResponseEntity.ok(calculationService.getAllCalculations());
+    }
+
     @PostMapping
     public ResponseEntity<CalculationDto> calculate(@RequestBody ArrayList<String> argumentList) {
-        CalculationDto calculationDto = null;
-        calculationDto = this.calculationService.calculate(argumentList);
-
-        return ResponseEntity.ok(calculationDto);
+        return ResponseEntity.ok(this.calculationService.calculate(argumentList));
     }
 }

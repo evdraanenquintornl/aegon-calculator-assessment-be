@@ -52,4 +52,18 @@ class CalculationControllerTest {
         Assertions.assertThat(calculationDto.getResult()).isEqualTo(result);
         Assertions.assertThat(calculationDto.getId());
     }
+
+    @Test
+    void getAllCalculations() throws Exception {
+        //  ARRANGE
+        CalculationDto expected = new CalculationDto("1 x 2", 2);
+        when(this.calculationService.getAllCalculations()).thenReturn(List.of(expected));
+        //  ACT
+        MvcResult result = this.mockMvc.perform(MockMvcRequestBuilders.get("/calculations")).andReturn();
+        CalculationDto[] actualList = objectMapper.readValue(result.getResponse().getContentAsString(), CalculationDto[].class);
+        //  ASSERT
+        Assertions.assertThat(result.getResponse().getStatus()).isEqualTo(200);
+
+        Assertions.assertThat(actualList).contains(expected);
+    }
 }

@@ -2,18 +2,23 @@ package aegon.assessment.simplecalculator.service;
 
 import aegon.assessment.simplecalculator.model.CalculationDto;
 import aegon.assessment.simplecalculator.model.SimpleCalculator;
+import aegon.assessment.simplecalculator.repository.CalculationRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
 public class CalculationService {
+    private CalculationRepository calculationRepository;
     SimpleCalculator simpleCalculator = new SimpleCalculator();
+
+    public CalculationService(CalculationRepository calculationRepository) {
+        this.calculationRepository = calculationRepository;
+    }
 
     public CalculationDto calculate(List<String> argumentList) {
         String operator = argumentList.get(1);
@@ -28,7 +33,7 @@ public class CalculationService {
             case "/":
                 calculationResult = simpleCalculator.divide(leftSide, rightSide);
                 break;
-            case "x":
+            case "*":
                 calculationResult = simpleCalculator.multiply(leftSide, rightSide);
                 break;
             case "-":
@@ -43,6 +48,12 @@ public class CalculationService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unable to parse given sum");
         }
 
-        return new CalculationDto(argumentList.stream().collect(Collectors.joining(" ")), calculationResult);
+        CalculationDto calculationDto = new CalculationDto(argumentList.stream().collect(Collectors.joining(" ")), calculationResult);
+        calculationRepository.save(calculationDto);
+        return calculationDto;
+    }
+
+    public List<CalculationDto> getAllCalculations() {
+        return calculationRepository.findAll();
     }
 }
