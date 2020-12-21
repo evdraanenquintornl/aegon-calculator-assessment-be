@@ -8,14 +8,16 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
 @WebMvcTest(CalculationController.class)
@@ -35,15 +37,19 @@ class CalculationControllerTest {
         //  ARRANGE
         String sum = "";
         double result = 5.0;
-        when(calculationService.calculate(any(ArrayList.class))).thenReturn(new CalculationDto(1L, sum, result));
+        when(calculationService.calculate(any(ArrayList.class))).thenReturn(new CalculationDto(sum, result));
         //  ACT
         MvcResult actual = this.mockMvc.perform(
-                MockMvcRequestBuilders.post("/calculations")).andReturn();
+                MockMvcRequestBuilders.post("/calculations")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(anyList())))
+                .andReturn();
         //  ASSERT
         assertThat(actual.getResponse().getStatus()).isEqualTo(200);
 
         CalculationDto calculationDto = objectMapper.readValue(actual.getResponse().getContentAsString(), CalculationDto.class);
         Assertions.assertThat(calculationDto.getSum()).isEqualTo(sum);
         Assertions.assertThat(calculationDto.getResult()).isEqualTo(result);
+        Assertions.assertThat(calculationDto.getId());
     }
 }

@@ -9,6 +9,6 @@ import java.util.List;
 public class CalculationService {
 
     public CalculationDto calculate(List<String> argumentList) {
-        return new CalculationDto(1L, "0", 0);
+        return new CalculationDto("0", 0);
     }
 }
