@@ -20,7 +20,17 @@ public class CalculationService {
         this.calculationRepository = calculationRepository;
     }
 
+    /**
+     * Calculates the result of a simple sum, only the first three entries are used of list.
+     *
+     * @param argumentList, sum cut into a list of strings
+     * @return calculationDto, http bad request if not able to process
+     */
     public CalculationDto calculate(List<String> argumentList) {
+        if (argumentList.size() >= 4) {
+            throw new ResponseStatusException(HttpStatus.LENGTH_REQUIRED, "Currently only able to parse simple sums");
+        }
+
         String operator = argumentList.get(1);
 
         int operatorIndex = argumentList.indexOf(operator);
