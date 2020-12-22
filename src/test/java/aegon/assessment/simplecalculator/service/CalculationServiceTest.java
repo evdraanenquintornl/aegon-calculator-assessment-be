@@ -42,6 +42,9 @@ class CalculationServiceTest {
         assertThat(actual.getResult()).isEqualTo(result);
     }
 
+    /**
+     * Unit tests are expected to fail due to not been able to implement extended sums.
+     */
     @ParameterizedTest
     @CsvSource({
             "1 x 2 + 2 x 5, 13",
