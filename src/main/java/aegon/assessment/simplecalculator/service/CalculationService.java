@@ -54,7 +54,7 @@ public class CalculationService {
                 break;
         }
 
-        if (Objects.isNull(calculationResult)) {
+        if (Objects.isNull(calculationResult) || calculationResult.isInfinite()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unable to parse given sum");
         }
 
